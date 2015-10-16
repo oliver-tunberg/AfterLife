@@ -19,13 +19,13 @@ public class Play extends GameState {
 
     public Play(GameStateManager gsm) {
         super(gsm);
-        this.world = new World(new Vector2(0, (-10f)), true);
+        this.world = new World(new Vector2(0, (-5f)), true);
         this.b2rd = new Box2DDebugRenderer();
 
 
         //define body (platform)
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(500 / PPM, 500 / PPM);
+        bodyDef.position.set(200 / PPM, 300 / PPM);
         bodyDef.type = BodyDef.BodyType.StaticBody;
 
         //create body (platform)
@@ -33,7 +33,7 @@ public class Play extends GameState {
 
         //define fixture (platform)
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(50 / PPM, 50 / PPM);
+        shape.setAsBox(500 / PPM, 50 / PPM);
 
         //create fixture (platform)
         FixtureDef fixtureDef = new FixtureDef();
@@ -43,18 +43,18 @@ public class Play extends GameState {
         platform.createFixture(fixtureDef);
 
         //define body (box)
-        bodyDef.position.set(530 / PPM, 700 / PPM);
+        bodyDef.position.set(580 / PPM, 700 / PPM);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.angularVelocity = (float)-0.5;
 
         //create body (box)
         Body box = world.createBody(bodyDef);
 
         //define fixture (box)
-        shape.setAsBox(5 / PPM, 5 / PPM);
+        shape.setAsBox(50 / PPM, 50 / PPM);
 
         //create fixture (box)
         fixtureDef.shape = shape;
-        fixtureDef.restitution = 1f;
 
         //put the fixture in the body (box)
         box.createFixture(fixtureDef);
