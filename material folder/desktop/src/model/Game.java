@@ -1,9 +1,11 @@
-package game;
+package model;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import handlers.GameStateManager;
+import handlers.MyInput;
+import handlers.MyInputProcessor;
 
 import java.awt.*;
 
@@ -20,6 +22,8 @@ public class Game implements ApplicationListener {
 
     @Override
     public void create() {
+
+        Gdx.input.setInputProcessor(new MyInputProcessor());
 
         sb = new SpriteBatch();
 
@@ -48,6 +52,7 @@ public class Game implements ApplicationListener {
             accum = accum - STEP;
             gsm.update(STEP);
             gsm.render();
+            MyInput.update();
 
         }
 

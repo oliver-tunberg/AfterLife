@@ -1,13 +1,13 @@
 package states;
-import static handlers.Box2DVariables.PPM;
+import static handlers.Box2DVariables.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.sun.xml.internal.ws.client.sei.ResponseBuilder;
 import handlers.GameStateManager;
+import handlers.MyContactListener;
+import handlers.MyInput;
 
 import java.awt.*;
 
@@ -19,13 +19,15 @@ public class Play extends GameState {
 
     public Play(GameStateManager gsm) {
         super(gsm);
-        this.world = new World(new Vector2(0, (-5f)), true);
+        this.world = new World(new Vector2(0, (-1f)), true);
+        this.world.setContactListener(new MyContactListener());
         this.b2rd = new Box2DDebugRenderer();
 
+        // ----------------------------------
 
         //define body (platform)
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(200 / PPM, 300 / PPM);
+        bodyDef.position.set(650 / PPM, 300 / PPM);
         bodyDef.type = BodyDef.BodyType.StaticBody;
 
         //create body (platform)
@@ -33,31 +35,65 @@ public class Play extends GameState {
 
         //define fixture (platform)
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(500 / PPM, 50 / PPM);
+        shape.setAsBox(150 / PPM, 10 / PPM);
 
         //create fixture (platform)
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
+        fixtureDef.filter.categoryBits = BIT_GROUND;
+        fixtureDef.filter.maskBits = BIT_BOX;
+        fixtureDef.filter.maskBits = BIT_BALL;
 
         //put the fixture in the body (platform)
-        platform.createFixture(fixtureDef);
+        Fixture fixPlatform = platform.createFixture(fixtureDef);
+        fixPlatform.setUserData("platform");
+
+        // ----------------------------------
 
         //define body (box)
-        bodyDef.position.set(580 / PPM, 700 / PPM);
+        bodyDef.position.set(650 / PPM, 700 / PPM);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.angularVelocity = (float)-0.5;
 
         //create body (box)
         Body box = world.createBody(bodyDef);
 
         //define fixture (box)
-        shape.setAsBox(50 / PPM, 50 / PPM);
+        shape.setAsBox(20 / PPM, 20 / PPM);
 
         //create fixture (box)
         fixtureDef.shape = shape;
+        fixtureDef.filter.categoryBits = BIT_BALL;
+        fixtureDef.filter.maskBits = BIT_GROUND;
 
         //put the fixture in the body (box)
-        box.createFixture(fixtureDef);
+        Fixture fixBox = box.createFixture(fixtureDef);
+        fixBox.setUserData("box");
+
+        // ----------------------------------
+
+        //define body (ball)
+        bodyDef.position.set(700 / PPM, 800 / PPM);
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+
+        //create body (ball)
+        Body ball = world.createBody(bodyDef);
+
+        //define fixture (ball)
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(50 / PPM);
+
+        //create fixture (ball)
+        fixtureDef.shape = circleShape;
+        fixtureDef.filter.categoryBits = BIT_BALL;
+        fixtureDef.filter.maskBits = BIT_GROUND;
+
+        //put the fixture in the body (ball)
+        Fixture fixBall = ball.createFixture(fixtureDef);
+        fixBall.setUserData("ball");
+
+        // ----------------------------------
+
+
 
         //setting up the camera
         gameCam = new OrthographicCamera();
@@ -69,10 +105,18 @@ public class Play extends GameState {
     @Override
     public void handleInput() {
 
+        if(MyInput.isPressed(MyInput.BUTTON_0)){
+            System.out.println("pressed z");
+        } else if(MyInput.isDown(MyInput.BUTTON_1)){
+            System.out.println("hold x");
+        }
+
     }
 
     @Override
     public void update(float dt) {
+
+        handleInput();
 
         world.step(dt, 6, 2);
 

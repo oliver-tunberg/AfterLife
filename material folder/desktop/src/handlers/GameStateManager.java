@@ -1,5 +1,5 @@
 package handlers;
-import game.Game;
+import model.Game;
 import states.GameState;
 import states.Play;
 import java.util.Stack;

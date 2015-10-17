@@ -1,7 +1,7 @@
 package states;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import game.Game;
+import model.Game;
 import handlers.GameStateManager;
 
 public abstract class GameState {
