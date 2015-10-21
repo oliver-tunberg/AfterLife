@@ -11,10 +11,27 @@ import handlers.MyInput;
 
 import java.awt.*;
 
+/**
+ * This state handles the logistics of the game play.
+ */
 public class Play extends GameState {
 
+    /**
+     * "The world class manages all physics entities, dynamic simulation, and asynchronous queries.
+     * The world also contains efficient memory management facilities."
+     * source: https://libgdx.badlogicgames.com/nightlies/docs/api/com/badlogic/gdx/physics/box2d/World.html
+     */
     private World world;
+
+    /**
+     * This instance is used to render the graphics.
+     * When its used it will require a world and a camera object.
+     */
     private Box2DDebugRenderer b2rd;
+
+    /**
+     * 
+     */
     private OrthographicCamera gameCam;
 
     public Play(GameStateManager gsm) {

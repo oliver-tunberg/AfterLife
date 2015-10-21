@@ -71,11 +71,30 @@ public abstract class GameState {
     }
 
     /**
+     * This method updates the model information.
+     * This is what makes the game run.
+     * This method is called every loop cycle.
      *
+     * @param dt the time in seconds that elapse between frames.
+     */
+    public abstract void update(float dt);
+
+    /**
+     * This method handles what happens when a certain button has been pressed.
+     * This method is called every loop cycle.
      */
     public abstract void handleInput();
-    public abstract void update(float dt);
+
+    /**
+     * This method updates the rendering of the graphics.
+     * It is called every loop cycle.
+     */
     public abstract void render();
+
+    /**
+     * This method is called when a state is switched out for another.
+     * The state that is being removed calls its own dispose method.
+     */
     public abstract void dispose();
 
 }

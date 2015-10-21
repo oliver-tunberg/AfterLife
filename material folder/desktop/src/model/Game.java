@@ -21,7 +21,7 @@ import java.awt.*;
  * It contains the looping method which runs the entire game.
  * It will work from the moment the application is started til the very last moment when it is closed down.
  */
-public class Game implements ApplicationListener { //   ?
+public class Game implements ApplicationListener {
 
     /**
      * The SpriteBatch implements the Batch interface.

@@ -10,7 +10,7 @@ import java.util.Stack;
  * Examples of states are gameplay, menu and paused state.
  * This class will be able to switch between the states.
  */
-public class GameStateManager { //   ?
+public class GameStateManager {
 
     /**
      * A reference to the Game class.

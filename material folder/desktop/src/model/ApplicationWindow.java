@@ -8,7 +8,7 @@ import java.awt.*;
  * This class is created my the main method once the program is started.
  * This is the window which the game takes place.
  */
-public class ApplicationWindow { //   ?
+public class ApplicationWindow {
 
     /**
      * This instance is a window created by the libGDX framework.
