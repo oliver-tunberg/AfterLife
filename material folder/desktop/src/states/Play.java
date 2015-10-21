@@ -30,14 +30,38 @@ public class Play extends GameState {
     private Box2DDebugRenderer b2rd;
 
     /**
-     * 
+     * This camera is used camera of the gameplay.
      */
     private OrthographicCamera gameCam;
 
+    /**
+     * This is the only constructor for this class.
+     * It requires a reference to the GameStateManager inorder to reach a reference to the Game class.
+     *
+     * @param gsm a reference to the GameStateManager.
+     */
     public Play(GameStateManager gsm) {
+        /**
+         * The reference to the GameStateManager is used in the super class so its sent to the constructor in GameState.
+         */
         super(gsm);
-        this.world = new World(new Vector2(0, (-1f)), true);
+
+        /**
+         * Here we initiate the World instance.
+         * It requires a Vector object which will set the initial forces of this world.
+         */
+        this.world = new World(new Vector2(0, (-10f)), true);
+
+        /**
+         * The World instance needs to be connected with the controller listener.
+         * We need to give it a reference a <ContactListener> interface.
+         */
         this.world.setContactListener(new MyContactListener());
+
+        /**
+         * Here we initiate the Box2DDebugRenderer.
+         * It needs no parameters.
+         */
         this.b2rd = new Box2DDebugRenderer();
 
         // ----------------------------------
@@ -88,30 +112,6 @@ public class Play extends GameState {
 
         // ----------------------------------
 
-        //define body (ball)
-        bodyDef.position.set(700 / PPM, 800 / PPM);
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-
-        //create body (ball)
-        Body ball = world.createBody(bodyDef);
-
-        //define fixture (ball)
-        CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(50 / PPM);
-
-        //create fixture (ball)
-        fixtureDef.shape = circleShape;
-        fixtureDef.filter.categoryBits = BIT_BALL;
-        fixtureDef.filter.maskBits = BIT_GROUND;
-
-        //put the fixture in the body (ball)
-        Fixture fixBall = ball.createFixture(fixtureDef);
-        fixBall.setUserData("ball");
-
-        // ----------------------------------
-
-
-
         //setting up the camera
         gameCam = new OrthographicCamera();
         gameCam.setToOrtho(false, (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / PPM, (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight() / PPM);
@@ -122,10 +122,10 @@ public class Play extends GameState {
     @Override
     public void handleInput() {
 
-        if(MyInput.isPressed(MyInput.BUTTON_0)){
-            System.out.println("pressed z");
+        if(MyInput.isDown(MyInput.BUTTON_0)){
+
         } else if(MyInput.isDown(MyInput.BUTTON_1)){
-            System.out.println("hold x");
+
         }
 
     }
