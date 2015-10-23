@@ -1,4 +1,4 @@
-package handlers;
+package controller;
 
 public class MyInput {
 
