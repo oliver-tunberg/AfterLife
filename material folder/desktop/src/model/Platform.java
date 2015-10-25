@@ -1,15 +1,9 @@
 package model;
-import static model.Box2DVariables.*;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import java.awt.*;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.sun.xml.internal.ws.client.sei.ResponseBuilder;
+
 
 public class Platform {
-
 
     private BodyDef bodyDef;
     private Body body;
@@ -20,13 +14,13 @@ public class Platform {
 
         this.bodyDef = new BodyDef();
 
-        this.bodyDef.position.set(x / PPM, y / PPM);
+        this.bodyDef.position.set(x, y);
         this.bodyDef.type = bodyType;
 
         this.body = world.createBody(bodyDef);
 
         this.polygonShape = new PolygonShape();
-        this.polygonShape.setAsBox(width / PPM, height / PPM);
+        this.polygonShape.setAsBox(width, height);
 
         this.fixtureDef = new FixtureDef();
         this.fixtureDef.shape = polygonShape;

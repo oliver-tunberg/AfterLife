@@ -1,19 +1,24 @@
-package model;
+package main;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import controller.MyInput;
-import controller.MyInputProcessor;
+import controller.ControllerInputProcessor;
+import model.Play;
+import view.GraphicsRender;
 
 public class Game implements ApplicationListener {
 
     private static final float STEP = 1 / 60f;
     private float accum;
-    private GameStateManager gsm;
+    private Play play;
+    private GraphicsRender graphicsRender;
+    private ControllerInputProcessor controllerInputProcessor;
 
     @Override
     public void create() {
-        Gdx.input.setInputProcessor(new MyInputProcessor());
-        gsm = new GameStateManager();
+        this.play = new Play();
+        this.graphicsRender = new GraphicsRender(this.play);
+        controllerInputProcessor = new ControllerInputProcessor(this.play);
+        Gdx.input.setInputProcessor(controllerInputProcessor);
     }
 
     @Override
@@ -23,9 +28,8 @@ public class Game implements ApplicationListener {
 
         while(STEP <= accum){
             accum = accum - STEP;
-            gsm.update(STEP);
-            gsm.render();
-            MyInput.update();
+            play.update(STEP);
+            graphicsRender.renderGraphics();
         }
 
     }

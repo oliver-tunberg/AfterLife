@@ -1,37 +1,31 @@
 package controller;
-import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Input.*;
 import com.badlogic.gdx.InputAdapter;
+import model.Play;
 
-/**
- * This class extends the functionality of the InputAdapter provided by the libGDX framework.
- * When the application is started the libGDX framework is given a reference to this class.
- * When that is done this class will become a listener to input from the computer.
- */
-public class MyInputProcessor extends InputAdapter {
 
-    /**
-     * This method is called when any key on the keyboard is pressed down.
-     *
-     * @param keycode an integer with the identity of the key pressed down.
-     * @return if successful.
-     */
+public class ControllerInputProcessor extends InputAdapter {
+
+    private Play play;
+
+    public ControllerInputProcessor(Play play){
+        this.play = play;
+    }
+
     @Override
     public boolean keyDown(int keycode) {
         if(keycode == Keys.A){
-            MyInput.setKey(MyInput.BUTTON_0, true);
+            play.getMap().getBox().getBody().applyForceToCenter(-10, 0, true);
         } else if(keycode == Keys.D){
-            MyInput.setKey(MyInput.BUTTON_1, true);
+            play.getMap().getBox().getBody().applyForceToCenter(10, 0, true);
         }
+
         return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        if(keycode == Keys.A){
-            MyInput.setKey(MyInput.BUTTON_0, false);
-        } else if(keycode == Keys.D){
-            MyInput.setKey(MyInput.BUTTON_1, false);
-        }
+
         return true;
     }
 

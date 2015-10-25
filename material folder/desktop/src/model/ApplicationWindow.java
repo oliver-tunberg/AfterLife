@@ -1,6 +1,8 @@
 package model;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import main.Game;
+
 import java.awt.*;
 
 
