@@ -15,9 +15,11 @@ public class ControllerInputProcessor extends InputAdapter {
     @Override
     public boolean keyDown(int keycode) {
         if(keycode == Keys.A){
-            play.getMap().getBox().getBody().applyForceToCenter(-10, 0, true);
+            play.setMoveLeft(true);
         } else if(keycode == Keys.D){
-            play.getMap().getBox().getBody().applyForceToCenter(10, 0, true);
+            play.setMoveRight(true);
+        } else if(keycode == Keys.SPACE){
+            play.setJump(true);
         }
 
         return true;
@@ -25,6 +27,15 @@ public class ControllerInputProcessor extends InputAdapter {
 
     @Override
     public boolean keyUp(int keycode) {
+
+
+        if(keycode == Keys.D){
+            play.setMoveRight(false);
+        }
+
+        if(keycode == Keys.A){
+            play.setMoveLeft(false);
+        }
 
         return true;
     }

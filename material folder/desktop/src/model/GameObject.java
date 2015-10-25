@@ -3,14 +3,14 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 
 
-public class Platform {
+public class GameObject {
 
     private BodyDef bodyDef;
     private Body body;
     private PolygonShape polygonShape;
     private FixtureDef fixtureDef;
 
-    public Platform(World world, float x, float y, float width, float height, BodyDef.BodyType bodyType){
+    public GameObject(World world, float x, float y, float width, float height, BodyDef.BodyType bodyType){
 
         this.bodyDef = new BodyDef();
 
@@ -23,6 +23,7 @@ public class Platform {
         this.polygonShape.setAsBox(width, height);
 
         this.fixtureDef = new FixtureDef();
+        this.fixtureDef.friction = 0;
         this.fixtureDef.shape = polygonShape;
 
         this.body.createFixture(fixtureDef);

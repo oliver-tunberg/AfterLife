@@ -3,6 +3,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import controller.ControllerInputProcessor;
 import model.Play;
+import model.Player;
 import view.GraphicsRender;
 
 public class Game implements ApplicationListener {
@@ -18,7 +19,7 @@ public class Game implements ApplicationListener {
         this.play = new Play();
         this.graphicsRender = new GraphicsRender(this.play);
         controllerInputProcessor = new ControllerInputProcessor(this.play);
-        Gdx.input.setInputProcessor(controllerInputProcessor);
+        Gdx.input.setInputProcessor(this.controllerInputProcessor);
     }
 
     @Override
