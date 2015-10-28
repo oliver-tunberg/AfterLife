@@ -3,27 +3,25 @@ import com.badlogic.gdx.physics.box2d.*;
 
 public class MyContactListener implements ContactListener {
 
-    /**
-     * Called when two fixtures start to collide.
-     *
-     * @param contact
-     */
+    private MapLevel mapLevel;
+
+    public MyContactListener(MapLevel mapLevel){
+        this.mapLevel = mapLevel;
+    }
+
     @Override
     public void beginContact(Contact contact) {
 
-        Fixture fixtureA = contact.getFixtureA();
-        Fixture fixtureB = contact.getFixtureB();
+        Body body = contact.getFixtureB().getBody();
+        if(body.getUserData()==GameObjectType.projectile){
+            mapLevel.sendProjectileToDeletion(body);
+        }
 
     }
 
-    /**
-     * Called when two fixtures stops collide.
-     *
-     * @param contact
-     */
+
     @Override
     public void endContact(Contact contact) {
-
 
     }
 

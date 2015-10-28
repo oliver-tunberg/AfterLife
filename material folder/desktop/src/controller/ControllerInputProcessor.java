@@ -1,25 +1,29 @@
 package controller;
 import com.badlogic.gdx.Input.*;
 import com.badlogic.gdx.InputAdapter;
-import model.Play;
+import model.GameManager;
 
 
 public class ControllerInputProcessor extends InputAdapter {
 
-    private Play play;
+    private GameManager gameManager;
 
-    public ControllerInputProcessor(Play play){
-        this.play = play;
+    public ControllerInputProcessor(GameManager gameManager){
+        this.gameManager = gameManager;
     }
 
     @Override
     public boolean keyDown(int keycode) {
         if(keycode == Keys.A){
-            play.setMoveLeft(true);
+            gameManager.getPlayerMovement().setMoveLeft(true);
         } else if(keycode == Keys.D){
-            play.setMoveRight(true);
+            gameManager.getPlayerMovement().setMoveRight(true);
         } else if(keycode == Keys.SPACE){
-            play.setJump(true);
+            gameManager.getPlayerMovement().setJump(true);
+        }
+
+        if(keycode == Keys.I){
+            gameManager.getProjectileManager().fireProjectile(gameManager);
         }
 
         return true;
@@ -27,16 +31,12 @@ public class ControllerInputProcessor extends InputAdapter {
 
     @Override
     public boolean keyUp(int keycode) {
-
-
         if(keycode == Keys.D){
-            play.setMoveRight(false);
+            gameManager.getPlayerMovement().setMoveRight(false);
         }
-
         if(keycode == Keys.A){
-            play.setMoveLeft(false);
+            gameManager.getPlayerMovement().setMoveLeft(false);
         }
-
         return true;
     }
 

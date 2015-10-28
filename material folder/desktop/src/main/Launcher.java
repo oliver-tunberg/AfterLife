@@ -1,5 +1,4 @@
 package main;
-import model.ApplicationWindow;
 
 /**
  * This class exists only to contain the main method.
