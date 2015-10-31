@@ -3,6 +3,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.sun.org.apache.bcel.internal.generic.ObjectType;
 
 
 public class GameObject {
@@ -11,10 +12,11 @@ public class GameObject {
     private Body body;
     private PolygonShape polygonShape;
     private FixtureDef fixtureDef;
-    private Texture texture;
-    private Sprite sprite;
 
-    public GameObject(World world, float x, float y, float width, float height, BodyDef.BodyType bodyType, String texturePath){
+    private Sprite[] spriteArray;
+    private FacingDirection facingDirection;
+
+    public GameObject(World world, float x, float y, float width, float height, BodyDef.BodyType bodyType, String texturePathA, String texturePathB){
 
         this.bodyDef = new BodyDef();
 
@@ -34,12 +36,19 @@ public class GameObject {
 
         this.body.createFixture(fixtureDef);
 
-        this.texture = new Texture(texturePath);
-        this.sprite = new Sprite(this.texture);
-
+        this.facingDirection = FacingDirection.right;
+        this.spriteArray = new Sprite[2];
+        this.setBodyUserData(GameObjectType.player);
+        Texture texture0 = new Texture(texturePathA);
+        Texture texture1= new Texture(texturePathB);
+        spriteArray[0] = new Sprite(texture0);
+        spriteArray[1] = new Sprite(texture1);
 
     }
 
+    public void setBodyUserData(GameObjectType type){
+        this.getBody().setUserData(type);
+    }
     public BodyDef getBodyDef() {
         return bodyDef;
     }
@@ -64,17 +73,14 @@ public class GameObject {
     public void setFixtureDef(FixtureDef fixtureDef) {
         this.fixtureDef = fixtureDef;
     }
-    public Texture getTexture() {
-        return texture;
+    public Sprite[] getSpriteArray() {
+        return spriteArray;
     }
-    public void setTexture(Texture texture) {
-        this.texture = texture;
+    public FacingDirection getFacingDirection() {
+        return facingDirection;
     }
-    public Sprite getSprite() {
-        return sprite;
-    }
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
+    public void setFacingDirection(FacingDirection facingDirection) {
+        this.facingDirection = facingDirection;
     }
 
 }

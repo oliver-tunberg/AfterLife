@@ -2,6 +2,7 @@ package controller;
 import com.badlogic.gdx.Input.*;
 import com.badlogic.gdx.InputAdapter;
 import model.GameManager;
+import view.GraphicsRender;
 
 
 public class ControllerInputProcessor extends InputAdapter {
@@ -19,7 +20,7 @@ public class ControllerInputProcessor extends InputAdapter {
         } else if(keycode == Keys.D){
             gameManager.getPlayerMovement().setMoveRight(true);
         } else if(keycode == Keys.SPACE){
-            gameManager.getPlayerMovement().setJump(true);
+            gameManager.getPlayerMovement().requestJump(true);
         }
 
         if(keycode == Keys.I){
@@ -67,6 +68,19 @@ public class ControllerInputProcessor extends InputAdapter {
 
     @Override
     public boolean scrolled(int amount) {
+        if(0<amount) {
+            scrollZoomIn();
+        } else {
+            scrollZoomOut();
+        }
         return super.scrolled(amount);
+    }
+
+    private void scrollZoomIn(){
+        GraphicsRender.camera.zoom = (float)(GraphicsRender.camera.zoom + 0.1);
+    }
+
+    private void scrollZoomOut(){
+        GraphicsRender.camera.zoom = (float)(GraphicsRender.camera.zoom - 0.1);
     }
 }

@@ -3,22 +3,36 @@ import com.badlogic.gdx.physics.box2d.*;
 
 public class MyContactListener implements ContactListener {
 
-    private MapLevel mapLevel;
+    private GameManager gameManager;
+    private LevelManager levelManager;
+    private ContactManager contactManager;
 
-    public MyContactListener(MapLevel mapLevel){
-        this.mapLevel = mapLevel;
+    public MyContactListener(GameManager gameManager){
+        this.gameManager = gameManager;
+        this.levelManager = gameManager.getLevelManager();
+        this.contactManager = new ContactManager();
     }
 
     @Override
     public void beginContact(Contact contact) {
 
-        Body body = contact.getFixtureB().getBody();
-        if(body.getUserData()==GameObjectType.projectile){
-            mapLevel.sendProjectileToDeletion(body);
+        Body bodyA = contact.getFixtureA().getBody();
+        Body bodyB = contact.getFixtureB().getBody();
+
+
+        if(bodyB.getUserData()==GameObjectType.projectile){
+            //contactManager.manageProjectileOnEnemy(levelManager, bodyB, bodyA);
+        }
+
+        if(bodyB.getUserData()==GameObjectType.projectile){
+            levelManager.sendProjectileToDeletion(bodyB);
+        }
+
+        if(bodyB.getUserData()==GameObjectType.player){
+            gameManager.getPlayerMovement().setPlayerInAir(false);
         }
 
     }
-
 
     @Override
     public void endContact(Contact contact) {

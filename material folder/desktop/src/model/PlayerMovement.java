@@ -5,10 +5,15 @@ public class PlayerMovement {
 
     private boolean moveRight;
     private boolean moveLeft;
-    private boolean jump;
+    private boolean jumpRequested;
+    private boolean playerInAir;
 
-    public void coordinatePlayerMovement(GameManager gameManager){
-        Body body =  gameManager.getMapLevel().getPlayer().getBody();
+    public void setPlayerInAir(boolean playerInAir) {
+        this.playerInAir = playerInAir;
+    }
+
+    public void controlPlayerMovement(GameManager gameManager){
+        Body body =  gameManager.getLevelManager().getPlayer().getBody();
         if(moveRight){
             body.setLinearVelocity(10, body.getLinearVelocity().y);
         } else {
@@ -23,9 +28,10 @@ public class PlayerMovement {
                 body.setLinearVelocity(0, body.getLinearVelocity().y);
             }
         }
-        if (jump) {
+        if (jumpRequested && !playerInAir) {
             body.applyForceToCenter(body.getLinearVelocity().x, 2000, true);
-            jump = false;
+            jumpRequested = false;
+            playerInAir = true;
         }
     }
 
@@ -41,11 +47,17 @@ public class PlayerMovement {
     public void setMoveLeft(boolean moveLeft) {
         this.moveLeft = moveLeft;
     }
-    public boolean isJump() {
-        return jump;
+    public boolean hasJumpBeenRequested() {
+        return jumpRequested;
     }
-    public void setJump(boolean jump) {
-        this.jump = jump;
+    public boolean isPlayerInAir() {
+        return playerInAir;
+    }
+
+    public void requestJump(boolean b) {
+        if(!playerInAir) {
+            this.jumpRequested = b;
+        }
     }
 
 }

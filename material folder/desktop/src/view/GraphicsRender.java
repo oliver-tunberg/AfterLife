@@ -4,32 +4,31 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import model.GameManager;
-import model.MapLevel;
+import model.LevelManager;
 
 
 public class GraphicsRender {
 
     private GameManager gameManager;
-    private MapLevel mapLevel;
+    private LevelManager levelManager;
     private Box2DDebugRenderer b2rd;
-    private OrthographicCamera camera;
+    public static OrthographicCamera camera;
     private SpriteBatch sb;
-    private PlayerGraphicsRender playerGraphicsRender;
+    private UnitGraphicsRender unitGraphicsRender;
 
     public GraphicsRender(GameManager gameManager){
         this.gameManager = gameManager;
-        this.mapLevel = gameManager.getMapLevel();
+        this.levelManager = gameManager.getLevelManager();
         //this.b2rd = new Box2DDebugRenderer();
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(false, 33, 20);
         this.camera.zoom = (float)1;
         this.camera.update();
         this.sb = new SpriteBatch();
-        this.playerGraphicsRender = new PlayerGraphicsRender();
+        this.unitGraphicsRender = new UnitGraphicsRender();
     }
 
     public void renderGraphics(){
@@ -39,9 +38,11 @@ public class GraphicsRender {
         connectCameraAndSpriteBatch();
         startSpriteBatchDrawing();
         renderBackground(sb);
-        playerGraphicsRender.renderPlayerGraphics(mapLevel, sb);
-        PlatformsGraphicsRender.renderPlatformsGraphics(mapLevel, sb);
-        ProjectileGraphicsRender.renderProjectileGraphics(mapLevel, sb);
+
+        PlatformsGraphicsRender.renderPlatformsGraphics(levelManager, sb);
+        unitGraphicsRender.renderUnitGraphics(levelManager, sb);
+        ProjectileGraphicsRender.renderProjectileGraphics(levelManager, sb);
+
         stopSpriteBatchDrawing();
     }
 
@@ -54,11 +55,11 @@ public class GraphicsRender {
     }
 
     private void renderTestingGraphics(){
-        b2rd.render(gameManager.getMapLevel().getWorld(), camera.combined);
+        b2rd.render(gameManager.getLevelManager().getWorld(), camera.combined);
     }
 
     private void cameraToFollowPlayer(){
-        Body body = gameManager.getMapLevel().getPlayer().getBody();
+        Body body = gameManager.getLevelManager().getPlayer().getBody();
         camera.position.set(body.getPosition().x, body.getPosition().y, 0);
     }
 
@@ -75,7 +76,7 @@ public class GraphicsRender {
     }
 
     private void renderBackground(SpriteBatch spriteBatch){
-        Sprite sprite = mapLevel.getBackground().getSprite();
+        Sprite sprite = levelManager.getBackground().getSprite();
         sprite.setPosition((-10),(-10));
         sprite.setSize(500, 500);
         sprite.draw(spriteBatch);

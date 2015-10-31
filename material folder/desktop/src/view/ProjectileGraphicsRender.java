@@ -1,19 +1,19 @@
 package view;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import model.MapLevel;
+import model.LevelManager;
 
 public class ProjectileGraphicsRender {
 
-    public static void renderProjectileGraphics(MapLevel mapLevel, SpriteBatch spriteBatch){
-        if(0<mapLevel.getProjectiles().size()) {
-            for (int i = 0; i < mapLevel.getProjectiles().size(); i++) {
-                float x = mapLevel.getProjectiles().get(i).getBody().getPosition().x;
-                float y = mapLevel.getProjectiles().get(i).getBody().getPosition().y;
-                Sprite sprite = mapLevel.getProjectiles().get(i).getSprite();
-                sprite.setSize((float) 0.2, (float) 0.2);
-                sprite.setPosition(x, y);
-                sprite.draw(spriteBatch);
+    public static void renderProjectileGraphics(LevelManager levelManager, SpriteBatch spriteBatch){
+        if(0< levelManager.getProjectiles().size()) {
+            for (int i = 0; i < levelManager.getProjectiles().size(); i++) {
+                float x = levelManager.getProjectiles().get(i).getBody().getPosition().x;
+                float y = levelManager.getProjectiles().get(i).getBody().getPosition().y;
+                Sprite[] sprites = levelManager.getProjectiles().get(i).getSpriteArray();
+                sprites[0].setSize((float) 0.2, (float) 0.2);
+                sprites[0].setPosition(x, y);
+                sprites[0].draw(spriteBatch);
 
             }
         }

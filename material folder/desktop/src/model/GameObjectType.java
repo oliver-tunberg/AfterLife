@@ -5,6 +5,6 @@ package model;
  */
 public enum GameObjectType {
 
-    platform, projectile;
+    platform, projectile, player;
 
 }
