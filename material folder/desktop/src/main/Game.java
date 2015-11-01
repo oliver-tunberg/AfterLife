@@ -3,20 +3,20 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import controller.ControllerInputProcessor;
 import model.GameManager;
-import view.GraphicsRender;
+import view.ViewManager;
 
 public class Game implements ApplicationListener {
 
     private static final float STEP = 1 / 60f;
     private float accum;
     private GameManager gameManager;
-    private GraphicsRender graphicsRender;
+    private ViewManager viewManager;
     private ControllerInputProcessor controllerInputProcessor;
 
     @Override
     public void create() {
         this.gameManager = new GameManager();
-        this.graphicsRender = new GraphicsRender(this.gameManager);
+        this.viewManager = new ViewManager(this.gameManager);
         controllerInputProcessor = new ControllerInputProcessor(this.gameManager);
         Gdx.input.setInputProcessor(this.controllerInputProcessor);
     }
@@ -29,7 +29,7 @@ public class Game implements ApplicationListener {
         while(STEP <= accum){
             accum = accum - STEP;
             gameManager.update(STEP);
-            graphicsRender.renderGraphics();
+            viewManager.renderGraphics();
         }
 
     }

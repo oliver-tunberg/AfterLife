@@ -2,24 +2,45 @@ package view;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import model.GameObject;
+import model.GameObjectValues;
 import model.LevelManager;
 
 import java.util.ArrayList;
 
 
-public class PlatformsGraphicsRender {
+public class PlatformsGraphicsRender extends GraphicsRender {
 
-    public static void renderPlatformsGraphics(LevelManager levelManager, SpriteBatch spriteBatch){
+    @Override
+    public void renderGraphics(LevelManager levelManager, SpriteBatch spriteBatch){
+        setListOfGameObjects(levelManager.getPlatforms());
+        iterateThroughList(spriteBatch);
+    }
 
-        ArrayList<GameObject> listOfPlatforms = levelManager.getPlatforms();
-        Sprite[] sprites;
-
-        for(int i=0; i<listOfPlatforms.size(); i++){
-            sprites = listOfPlatforms.get(i).getSpriteArray();
-            sprites[0].setSize(20, 2);
-            sprites[0].setPosition(listOfPlatforms.get(i).getBody().getPosition().x - 10, listOfPlatforms.get(i).getBody().getPosition().y - 1);
-            sprites[0].draw(spriteBatch);
+    @Override
+    public void iterateThroughList(SpriteBatch spriteBatch) {
+        for(int i=0; i<getListOfGameObjects().size(); i++){
+            setSprites(getListOfGameObjects().get(i).getSpriteArray());
+            setSpriteSize(getSprites()[0]);
+            setSpritePosition(getSprites()[0], getListOfGameObjects().get(i));
+            drawSpriteIntoSpriteBatch(spriteBatch, getSprites()[0]);
         }
+    }
+
+    @Override
+    public void setSpriteSize(Sprite sprite) {
+        sprite.setSize(GameObjectValues.platform0_width, GameObjectValues.platform0_height);
+    }
+
+    @Override
+    public void setSpritePosition(Sprite sprite, GameObject gameObject) {
+        float x = (gameObject.getBody().getPosition().x) - (GameObjectValues.platform0_width/2);
+        float y = (gameObject.getBody().getPosition().y) - (GameObjectValues.platform0_height/2);
+        sprite.setPosition(x, y);
+    }
+
+    @Override
+    public void drawSpriteIntoSpriteBatch(SpriteBatch spriteBatch, Sprite sprite) {
+        sprite.draw(spriteBatch);
     }
 
 }

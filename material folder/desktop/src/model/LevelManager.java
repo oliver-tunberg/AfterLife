@@ -50,6 +50,7 @@ public class LevelManager {
         Sprite[] sprites = gameObject.getSpriteArray();
         sprites[0].getTexture().dispose();
         sprites[1].getTexture().dispose();
+
     }
 
 

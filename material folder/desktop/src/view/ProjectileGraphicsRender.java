@@ -1,22 +1,44 @@
 package view;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import model.GameObject;
+import model.GameObjectValues;
 import model.LevelManager;
 
-public class ProjectileGraphicsRender {
+public class ProjectileGraphicsRender extends GraphicsRender {
 
-    public static void renderProjectileGraphics(LevelManager levelManager, SpriteBatch spriteBatch){
-        if(0< levelManager.getProjectiles().size()) {
-            for (int i = 0; i < levelManager.getProjectiles().size(); i++) {
-                float x = levelManager.getProjectiles().get(i).getBody().getPosition().x;
-                float y = levelManager.getProjectiles().get(i).getBody().getPosition().y;
-                Sprite[] sprites = levelManager.getProjectiles().get(i).getSpriteArray();
-                sprites[0].setSize((float) 0.2, (float) 0.2);
-                sprites[0].setPosition(x, y);
-                sprites[0].draw(spriteBatch);
-
-            }
+    @Override
+    public void renderGraphics(LevelManager levelManager, SpriteBatch spriteBatch) {
+        setListOfGameObjects(levelManager.getProjectiles());
+        if(0<getListOfGameObjects().size()) {
+            iterateThroughList(spriteBatch);
         }
     }
 
+    @Override
+    public void iterateThroughList(SpriteBatch spriteBatch) {
+        for(int i=0; i<getListOfGameObjects().size(); i++){
+            setSprites(getListOfGameObjects().get(i).getSpriteArray());
+            setSpriteSize(getSprites()[0]);
+            setSpritePosition(getSprites()[0], getListOfGameObjects().get(i));
+            drawSpriteIntoSpriteBatch(spriteBatch, getSprites()[0]);
+        }
+    }
+
+    @Override
+    public void setSpriteSize(Sprite sprite) {
+        sprite.setSize(GameObjectValues.projectile_width, GameObjectValues.projectile_height);
+    }
+
+    @Override
+    public void setSpritePosition(Sprite sprite, GameObject gameObject) {
+        float x = (gameObject.getBody().getPosition().x) - (GameObjectValues.projectile_width/2);
+        float y = (gameObject.getBody().getPosition().y) - (GameObjectValues.projectile_height/2);
+        sprite.setPosition(x, y);
+    }
+
+    @Override
+    public void drawSpriteIntoSpriteBatch(SpriteBatch spriteBatch, Sprite sprite) {
+        sprite.draw(spriteBatch);
+    }
 }

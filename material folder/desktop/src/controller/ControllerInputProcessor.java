@@ -2,7 +2,7 @@ package controller;
 import com.badlogic.gdx.Input.*;
 import com.badlogic.gdx.InputAdapter;
 import model.GameManager;
-import view.GraphicsRender;
+import view.ViewManager;
 
 
 public class ControllerInputProcessor extends InputAdapter {
@@ -77,10 +77,10 @@ public class ControllerInputProcessor extends InputAdapter {
     }
 
     private void scrollZoomIn(){
-        GraphicsRender.camera.zoom = (float)(GraphicsRender.camera.zoom + 0.1);
+        ViewManager.camera.zoom = (float)(ViewManager.camera.zoom + 0.1);
     }
 
     private void scrollZoomOut(){
-        GraphicsRender.camera.zoom = (float)(GraphicsRender.camera.zoom - 0.1);
+        ViewManager.camera.zoom = (float)(ViewManager.camera.zoom - 0.1);
     }
 }
